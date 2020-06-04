@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EyeQ</string>
+    <string name="image">Image</string>
+    <string name="video">Video</string>
+</resources>
