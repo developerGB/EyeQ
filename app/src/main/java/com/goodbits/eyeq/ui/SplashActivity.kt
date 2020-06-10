@@ -66,7 +66,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun bindUI(){
 
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, FormActivity::class.java))
         finish()
     }
 

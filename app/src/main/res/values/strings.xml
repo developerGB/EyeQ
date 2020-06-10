@@ -2,4 +2,15 @@
     <string name="app_name">EyeQ</string>
     <string name="image">Image</string>
     <string name="video">Video</string>
+    <string name="email">E-mail</string>
+    <string name="phonenum">Mobile Number</string>
+    <string name="device_info">Device Information</string>
+    <string name="model">Model :</string>
+    <string name="os">OS Version :</string>
+    <string name="bt">Bluetooth Version :</string>
+    <string name="agree">I have read and agreed to the&#160;&#160;</string>
+    <string name="pp"><u>Privacy Policy</u>.</string>
+    <string name="skip">SKIP</string>
+    <string name="submit">SUBMIT</string>
+    <string name="vibrate">Vibrate when taking photo or video</string>
 </resources>
