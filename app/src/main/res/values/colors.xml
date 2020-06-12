@@ -5,4 +5,5 @@
     <color name="colorAccent">#ffffa000</color>
     <color name="colorPrimaryTranslucent">#A0000000</color>
     <color name="white">#ffff</color>
+    <color name="option_bg">#88000000</color>
 </resources>

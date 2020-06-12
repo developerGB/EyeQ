@@ -13,4 +13,25 @@
     <string name="skip">SKIP</string>
     <string name="submit">SUBMIT</string>
     <string name="vibrate">Vibrate when taking photo or video</string>
+    <string name="settings">Settings</string>
+    <string name="browse">Browse</string>
+    <string name="zoom">Zoom</string>
+    <string name="takephoto">Take Photo</string>
+    <string name="record">Record</string>
+    <string name="back">Back</string>
+    <string name="done">Done</string>
+
+    <string name="videoquality">Video quality</string>
+    <string name="highquality">High quality\n1920*1080</string>
+    <string name="medquality">Med quality\n1280*720</string>
+    <string name="lowquality">Low quality\n640*480</string>
+
+    <string name="photoquality">Photo quality</string>
+    <string name="maxres">Maximum\nResolution</string>
+    <string name="q1080p">1080p\n1920*1080</string>
+    <string name="q720p">720p\n1280*720</string>
+    <string name="vga">VGA\n640*480</string>
+
+
+
 </resources>

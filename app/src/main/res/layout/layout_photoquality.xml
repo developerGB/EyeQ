@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <RelativeLayout
+            android:id="@+id/pic_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+        <LinearLayout
+                android:id="@+id/left_menu1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:id="@+id/pic_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/rounded_right_corner">
+
+                <TextView
+                        android:id="@+id/text_done"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/done"
+                        android:textColor="@android:color/white"
+                        android:textSize="15sp"/>
+
+                <ImageView
+                        android:id="@+id/img_done"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toRightOf="@+id/text_done"
+                        android:src="@drawable/checkmarkactive"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/photoquality"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"/>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+                android:id="@+id/right_menu1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:id="@+id/maxres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/rounded_left_corner">
+
+                <ImageView
+                        android:id="@+id/img_highres"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/checkmarkactive"/>
+
+
+                <TextView
+                        android:id="@+id/text_high"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/img_highres"
+                        android:text="@string/maxres"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/q1080p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/rounded_left_corner">
+
+                <ImageView
+                        android:id="@+id/img_medres"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/checkmarkinactive"/>
+
+
+                <TextView
+                        android:id="@+id/text_med"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/img_medres"
+                        android:text="@string/q1080p"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/q720p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/rounded_left_corner">
+
+                <ImageView
+                        android:id="@+id/img_lowres"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/checkmarkinactive"/>
+
+
+                <TextView
+                        android:id="@+id/text_low"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/img_lowres"
+                        android:text="@string/q720p"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"/>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                    android:id="@+id/vga"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/rounded_left_corner">
+
+                <ImageView
+                        android:id="@+id/img_vga"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/checkmarkinactive"/>
+
+
+                <TextView
+                        android:id="@+id/text_vga"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/img_vga"
+                        android:text="@string/vga"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"/>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

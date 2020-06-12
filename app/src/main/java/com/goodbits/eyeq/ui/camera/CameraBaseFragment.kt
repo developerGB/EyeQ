@@ -20,6 +20,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.goodbits.eyeq.R
 import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.android.synthetic.main.layout_photoquality.*
+import kotlinx.android.synthetic.main.layout_settings.*
+import kotlinx.android.synthetic.main.layout_videoquality.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,7 +36,7 @@ class CameraBaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_camera,container,false)
+        return inflater.inflate(R.layout.fragment_camera, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +44,7 @@ class CameraBaseFragment : Fragment() {
 
         startCamera()
 
-        seek_zoom.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        seek_zoom.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser)
                     setZoom(progress.toFloat() + 1)
@@ -64,6 +67,101 @@ class CameraBaseFragment : Fragment() {
             startVideoRecord()
         }
 
+        btn_settings.setOnClickListener {
+
+            btn_browse.visibility = View.GONE
+            btn_record.visibility = View.GONE
+            btn_settings.visibility = View.GONE
+            btn_take_pic.visibility = View.GONE
+            zoom.visibility = View.GONE
+            settings_container.visibility = View.VISIBLE
+
+            settings_back.setOnClickListener {
+                btn_browse.visibility = View.VISIBLE
+                btn_record.visibility = View.VISIBLE
+                btn_settings.visibility = View.VISIBLE
+                btn_take_pic.visibility = View.VISIBLE
+                zoom.visibility = View.VISIBLE
+                settings_container.visibility = View.GONE
+            }
+
+            videoquality.setOnClickListener {
+                settings_container.visibility = View.GONE
+                video_container.visibility = View.VISIBLE
+
+                highquality.setOnClickListener {
+                    img_high.setImageDrawable(resources.getDrawable(R.drawable.checkmarkactive))
+                    img_med.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_low.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    imageQuality(1)
+                }
+                medquality.setOnClickListener {
+                    img_high.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_med.setImageDrawable(resources.getDrawable(R.drawable.checkmarkactive))
+                    img_low.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    imageQuality(2)
+                }
+                lowquality.setOnClickListener {
+                    img_high.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_med.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_low.setImageDrawable(resources.getDrawable(R.drawable.checkmarkactive))
+                    imageQuality(3)
+                }
+                video_done.setOnClickListener {
+                    btn_browse.visibility = View.VISIBLE
+                    btn_record.visibility = View.VISIBLE
+                    btn_settings.visibility = View.VISIBLE
+                    btn_take_pic.visibility = View.VISIBLE
+                    zoom.visibility = View.VISIBLE
+                    video_container.visibility = View.GONE
+                }
+
+
+            }
+
+            photoquality.setOnClickListener {
+                settings_container.visibility = View.GONE
+                pic_container.visibility = View.VISIBLE
+
+                maxres.setOnClickListener {
+                    img_highres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkactive))
+                    img_medres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_lowres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_vga.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    imageQuality(1)
+                }
+                q1080p.setOnClickListener {
+                    img_highres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_medres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkactive))
+                    img_lowres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_vga.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    imageQuality(2)
+                }
+                q720p.setOnClickListener {
+                    img_highres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_medres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_lowres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkactive))
+                    img_vga.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    imageQuality(3)
+                }
+                vga.setOnClickListener {
+                    img_highres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_medres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_lowres.setImageDrawable(resources.getDrawable(R.drawable.checkmarkinactive))
+                    img_vga.setImageDrawable(resources.getDrawable(R.drawable.checkmarkactive))
+                    imageQuality(4)
+                }
+                pic_done.setOnClickListener {
+                    btn_browse.visibility = View.VISIBLE
+                    btn_record.visibility = View.VISIBLE
+                    btn_settings.visibility = View.VISIBLE
+                    btn_take_pic.visibility = View.VISIBLE
+                    zoom.visibility = View.VISIBLE
+                    pic_container.visibility = View.GONE
+                }
+            }
+        }
+
     }
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,8 +170,8 @@ class CameraBaseFragment : Fragment() {
 //        setContentView(R.layout.fragment_camera)
 //
 //    }
-    
-    private fun setZoom(zm:Float){
+
+    private fun setZoom(zm: Float) {
         cam.zoomRatio = zm
         txt_seek.text = "${zm}x"
     }
@@ -85,7 +183,7 @@ class CameraBaseFragment : Fragment() {
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Log.e(TAG,"Camera permission missing")
+            Log.e(TAG, "Camera permission missing")
             return
         }
 
@@ -96,7 +194,7 @@ class CameraBaseFragment : Fragment() {
         setZoom(DEFAULT_ZOOM)
     }
 
-    private fun takePhoto(){
+    private fun takePhoto() {
 
         if (!cam.isRecording) {
             if (cam.captureMode != CameraView.CaptureMode.IMAGE) {
@@ -107,7 +205,7 @@ class CameraBaseFragment : Fragment() {
                         Manifest.permission.CAMERA
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-                    Log.e(TAG,"Camera permission missing")
+                    Log.e(TAG, "Camera permission missing")
                     return
                 }
                 cam.bindToLifecycle(this)
@@ -141,9 +239,9 @@ class CameraBaseFragment : Fragment() {
         }
     }
 
-    private fun startVideoRecord(){
+    private fun startVideoRecord() {
 
-        if (!cam.isRecording){
+        if (!cam.isRecording) {
 
             if (cam.captureMode != CameraView.CaptureMode.VIDEO) {
                 cam.captureMode = CameraView.CaptureMode.VIDEO
@@ -153,7 +251,7 @@ class CameraBaseFragment : Fragment() {
                         Manifest.permission.CAMERA
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-                    Log.e(TAG,"Camera permission missing")
+                    Log.e(TAG, "Camera permission missing")
                     return
                 }
                 cam.bindToLifecycle(this)
@@ -164,25 +262,32 @@ class CameraBaseFragment : Fragment() {
                 getOutputDirectory(getString(R.string.video)),
                 SimpleDateFormat(
                     FILENAME_FORMAT, Locale.US
-                ).format(System.currentTimeMillis()) + ".mp4")
+                ).format(System.currentTimeMillis()) + ".mp4"
+            )
 
-            cam.startRecording(videoFile, ContextCompat.getMainExecutor(context), object : VideoCapture.OnVideoSavedCallback{
-                override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
-                    Log.e(TAG, "Photo capture failed: ${message}")
-                }
+            cam.startRecording(
+                videoFile,
+                ContextCompat.getMainExecutor(context),
+                object : VideoCapture.OnVideoSavedCallback {
+                    override fun onError(
+                        videoCaptureError: Int,
+                        message: String,
+                        cause: Throwable?
+                    ) {
+                        Log.e(TAG, "Photo capture failed: ${message}")
+                    }
 
-                override fun onVideoSaved(file: File) {
-                    val savedUri = Uri.fromFile(file)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
-                }
-            })
+                    override fun onVideoSaved(file: File) {
+                        val savedUri = Uri.fromFile(file)
+                        val msg = "Photo capture succeeded: $savedUri"
+                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, msg)
+                    }
+                })
 
             img_record.setImageDrawable(resources.getDrawable(R.drawable.recordred))
             txt_record.text = "Stop"
-        }
-        else {
+        } else {
             cam.stopRecording()
             img_record.setImageDrawable(resources.getDrawable(R.drawable.recordwhite))
             txt_record.text = "Record"
@@ -191,7 +296,8 @@ class CameraBaseFragment : Fragment() {
 
     private fun getOutputDirectory(folder: String): File {
         val mediaDir = context!!.externalMediaDirs.firstOrNull()?.let {
-            File(it, folder).apply { mkdirs() } }
+            File(it, folder).apply { mkdirs() }
+        }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else context!!.filesDir
     }
@@ -201,5 +307,9 @@ class CameraBaseFragment : Fragment() {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
     }
 
+    private fun imageQuality(id: Int) {
+
+
+    }
 
 }
