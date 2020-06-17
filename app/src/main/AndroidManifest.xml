@@ -15,7 +15,9 @@
         android:roundIcon="@drawable/eyeq"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.FormActivity"></activity>
+        <activity
+            android:name=".ui.FormActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="landscape">
