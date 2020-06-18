@@ -1,16 +1,18 @@
 package com.goodbits.eyeq.ui.camera
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Chronometer
 import android.widget.SeekBar
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.VideoCapture
@@ -19,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.goodbits.eyeq.R
+import com.goodbits.eyeq.ui.ActivityGallery
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.layout_photoquality.*
 import kotlinx.android.synthetic.main.layout_settings.*
@@ -51,37 +54,30 @@ class CameraBaseFragment : Fragment() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
             }
         })
 
         btn_take_pic.setOnClickListener {
             takePhoto()
         }
-
         btn_record.setOnClickListener {
             startVideoRecord()
+        }
+        btn_browse.setOnClickListener {
+            val intent = Intent(activity, ActivityGallery::class.java)
+            startActivity(intent)
         }
 
         btn_settings.setOnClickListener {
 
-            btn_browse.visibility = View.GONE
-            btn_record.visibility = View.GONE
-            btn_settings.visibility = View.GONE
-            btn_take_pic.visibility = View.GONE
-            zoom.visibility = View.GONE
+            menu_container.visibility = View.GONE
             settings_container.visibility = View.VISIBLE
 
             settings_back.setOnClickListener {
-                btn_browse.visibility = View.VISIBLE
-                btn_record.visibility = View.VISIBLE
-                btn_settings.visibility = View.VISIBLE
-                btn_take_pic.visibility = View.VISIBLE
-                zoom.visibility = View.VISIBLE
+                menu_container.visibility = View.VISIBLE
                 settings_container.visibility = View.GONE
             }
 
@@ -108,15 +104,9 @@ class CameraBaseFragment : Fragment() {
                     imageQuality(3)
                 }
                 video_done.setOnClickListener {
-                    btn_browse.visibility = View.VISIBLE
-                    btn_record.visibility = View.VISIBLE
-                    btn_settings.visibility = View.VISIBLE
-                    btn_take_pic.visibility = View.VISIBLE
-                    zoom.visibility = View.VISIBLE
+                    menu_container.visibility = View.VISIBLE
                     video_container.visibility = View.GONE
                 }
-
-
             }
 
             photoquality.setOnClickListener {
@@ -152,11 +142,7 @@ class CameraBaseFragment : Fragment() {
                     imageQuality(4)
                 }
                 pic_done.setOnClickListener {
-                    btn_browse.visibility = View.VISIBLE
-                    btn_record.visibility = View.VISIBLE
-                    btn_settings.visibility = View.VISIBLE
-                    btn_take_pic.visibility = View.VISIBLE
-                    zoom.visibility = View.VISIBLE
+                    menu_container.visibility = View.VISIBLE
                     pic_container.visibility = View.GONE
                 }
             }
@@ -279,7 +265,7 @@ class CameraBaseFragment : Fragment() {
 
                     override fun onVideoSaved(file: File) {
                         val savedUri = Uri.fromFile(file)
-                        val msg = "Photo capture succeeded: $savedUri"
+                        val msg = "Video capture succeeded: $savedUri"
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                         Log.d(TAG, msg)
                     }
@@ -287,8 +273,16 @@ class CameraBaseFragment : Fragment() {
 
             img_record.setImageDrawable(resources.getDrawable(R.drawable.recordred))
             txt_record.text = "Stop"
+
+            chronometer!!.base = SystemClock.elapsedRealtime()
+            chronometer.visibility = View.VISIBLE
+            chronometer.start()
+
+
         } else {
             cam.stopRecording()
+            chronometer.stop()
+            chronometer.visibility = View.GONE
             img_record.setImageDrawable(resources.getDrawable(R.drawable.recordwhite))
             txt_record.text = "Record"
         }

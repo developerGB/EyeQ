@@ -19,6 +19,9 @@
             android:name=".ui.FormActivity"
             android:screenOrientation="landscape" />
         <activity
+            android:name=".ui.ActivityGallery"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="landscape">
             <intent-filter>
