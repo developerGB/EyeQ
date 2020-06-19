@@ -37,7 +37,8 @@ class ActivityGallery : AppCompatActivity() {
 
     private fun getFromSdcard() {
         imgList.clear()
-        val file = File(Environment.getExternalStorageDirectory(), "Android/media/com.goodbits.eyeq/Image")
+        val file =
+            File(Environment.getExternalStorageDirectory(), "Android/media/com.goodbits.eyeq/Image")
         if (file.isDirectory) {
             listFile = file.listFiles()
             for (i in listFile!!.indices) {
@@ -48,7 +49,10 @@ class ActivityGallery : AppCompatActivity() {
     }
 
 
-    class ImageAdapter(private var context: Context, private var arrayListImage: ArrayList<String>) : BaseAdapter() {
+    class ImageAdapter(
+        private var context: Context,
+        private var arrayListImage: ArrayList<String>
+    ) : BaseAdapter() {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
@@ -61,6 +65,7 @@ class ActivityGallery : AppCompatActivity() {
                 myView = mInflater.inflate(R.layout.gallery_item, parent, false)
                 holder = ViewHolder()
                 holder.imageview = myView!!.findViewById(R.id.thumbImage) as ImageView
+                holder.play = myView.findViewById(R.id.play) as ImageView
 
                 //Set A Tag to Identify our view.
                 myView.tag = holder
@@ -71,6 +76,12 @@ class ActivityGallery : AppCompatActivity() {
             }
 
             val file = File(arrayListImage[position])
+            if (file.toString().endsWith(".mp4")) {
+                holder.play.visibility = View.VISIBLE
+            } else {
+                holder.play.visibility = View.GONE
+            }
+
             val imgUri = Uri.fromFile(file)
             Glide.with(context)
                 .load(imgUri)
@@ -143,7 +154,7 @@ class ActivityGallery : AppCompatActivity() {
 
         internal class ViewHolder {
             lateinit var imageview: ImageView
-            var play: ImageView? = null
+            lateinit var play: ImageView
         }
 
     }

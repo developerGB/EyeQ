@@ -245,7 +245,7 @@ class CameraBaseFragment : Fragment() {
 
             // Create timestamped output file to hold the image
             val videoFile = File(
-                getOutputDirectory(getString(R.string.video)),
+                getOutputDirectory(getString(R.string.image)),
                 SimpleDateFormat(
                     FILENAME_FORMAT, Locale.US
                 ).format(System.currentTimeMillis()) + ".mp4"
