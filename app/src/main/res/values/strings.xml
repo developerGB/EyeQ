@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">EyeQ</string>
-    <string name="media">Media</string>
     <string name="email">E-mail</string>
     <string name="phonenum">Mobile Number</string>
     <string name="device_info">Device Information</string>

@@ -2,6 +2,7 @@ package com.goodbits.eyeq.ui
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.goodbits.eyeq.R
+import com.goodbits.eyeq.ui.utils.EyeQUtils
 import kotlinx.android.synthetic.main.activity_gallery.*
 import java.io.File
 import java.util.*
@@ -30,7 +32,7 @@ class ActivityGallery : AppCompatActivity() {
         setColumnForGrid()
 
         btn_back.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         getFromSdcard()
@@ -41,7 +43,7 @@ class ActivityGallery : AppCompatActivity() {
     private fun getFromSdcard() {
         imgList.clear()
 //        val file = File(Environment.getExternalStorageDirectory(), "Android/media/com.goodbits.eyeq/Image")
-        val file = getOutputDirectory(resources.getString(R.string.media))
+        val file = EyeQUtils.getOutputDirectory(this)
         if (file.isDirectory) {
             listFile = file.listFiles()
             for (i in listFile!!.indices) {
@@ -49,14 +51,6 @@ class ActivityGallery : AppCompatActivity() {
                 imgList.reverse()
             }
         }
-    }
-
-    private fun getOutputDirectory(folder: String): File {
-        val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, folder).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else filesDir
     }
 
     private fun setColumnForGrid() {
@@ -174,6 +168,11 @@ class ActivityGallery : AppCompatActivity() {
             lateinit var play: ImageView
         }
 
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
 }

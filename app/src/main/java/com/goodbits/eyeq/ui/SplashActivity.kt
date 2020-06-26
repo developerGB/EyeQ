@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.goodbits.eyeq.R
-import com.goodbits.eyeq.ui.camera.CameraBaseFragment
 
 class SplashActivity : AppCompatActivity() {
 
@@ -67,7 +66,11 @@ class SplashActivity : AppCompatActivity() {
 
     private fun bindUI(){
 
-        startActivity(Intent(this, FormActivity::class.java))
+        val intent = Intent(this, FormActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
         finish()
     }
 
