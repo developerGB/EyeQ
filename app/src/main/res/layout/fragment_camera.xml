@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:captureMode="image"
+        app:pinchToZoomEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,11 +216,12 @@
             android:id="@+id/zoom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/left_menu"
+            android:layout_below="@+id/right_menu"
             android:layout_marginBottom="20dp"
             app:cardBackgroundColor="@color/menu_bg"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_alignParentEnd="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -255,7 +257,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:max="7"
+                    android:max="9"
                     android:progressBackgroundTint="#eee"
                     android:secondaryProgressTint="#585858"
                     android:thumbTint="@color/white"

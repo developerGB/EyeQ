@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
@@ -197,9 +196,11 @@ class CameraBaseFragment : Fragment() {
                 cam.bindToLifecycle(this)
             }
 
+            img_photo.setImageDrawable(resources.getDrawable(R.drawable.cameragreen,activity?.theme))
+
             // Create timestamped output file to hold the image
             val photoFile = File(
-                getOutputDirectory(getString(R.string.image)),
+                getOutputDirectory(getString(R.string.media)),
                 SimpleDateFormat(
                     FILENAME_FORMAT, Locale.US
                 ).format(System.currentTimeMillis()) + ".jpg"
@@ -213,6 +214,7 @@ class CameraBaseFragment : Fragment() {
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onError(exc: ImageCaptureException) {
                         Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                        img_photo.setImageDrawable(resources.getDrawable(R.drawable.camerawhite,activity?.theme))
                     }
 
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -220,6 +222,7 @@ class CameraBaseFragment : Fragment() {
                         val msg = "Photo capture succeeded: $savedUri"
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                         Log.d(TAG, msg)
+                        img_photo.setImageDrawable(resources.getDrawable(R.drawable.camerawhite,activity?.theme))
                     }
                 })
         }
@@ -245,7 +248,7 @@ class CameraBaseFragment : Fragment() {
 
             // Create timestamped output file to hold the image
             val videoFile = File(
-                getOutputDirectory(getString(R.string.image)),
+                getOutputDirectory(getString(R.string.media)),
                 SimpleDateFormat(
                     FILENAME_FORMAT, Locale.US
                 ).format(System.currentTimeMillis()) + ".mp4"

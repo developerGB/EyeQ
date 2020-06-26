@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_gallery.*
 import java.io.File
 import java.util.*
 
+
 class ActivityGallery : AppCompatActivity() {
 
     private var imgList = ArrayList<String>()
@@ -25,6 +26,8 @@ class ActivityGallery : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
+
+        setColumnForGrid()
 
         btn_back.setOnClickListener {
             finish()
@@ -37,8 +40,8 @@ class ActivityGallery : AppCompatActivity() {
 
     private fun getFromSdcard() {
         imgList.clear()
-        val file =
-            File(Environment.getExternalStorageDirectory(), "Android/media/com.goodbits.eyeq/Image")
+//        val file = File(Environment.getExternalStorageDirectory(), "Android/media/com.goodbits.eyeq/Image")
+        val file = getOutputDirectory(resources.getString(R.string.media))
         if (file.isDirectory) {
             listFile = file.listFiles()
             for (i in listFile!!.indices) {
@@ -48,6 +51,20 @@ class ActivityGallery : AppCompatActivity() {
         }
     }
 
+    private fun getOutputDirectory(folder: String): File {
+        val mediaDir = externalMediaDirs.firstOrNull()?.let {
+            File(it, folder).apply { mkdirs() }
+        }
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else filesDir
+    }
+
+    private fun setColumnForGrid() {
+        val width: Int = resources.displayMetrics.widthPixels
+        val px = resources.getDimension(R.dimen.gird_column_width)
+        val numCol = (width / px).toInt()
+        gridview.setNumColumns(numCol)
+    }
 
     class ImageAdapter(
         private var context: Context,
