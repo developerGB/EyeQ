@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "511859356657",
+    "firebase_url": "https://eyeq-1549360105178.firebaseio.com",
+    "project_id": "eyeq-1549360105178",
+    "storage_bucket": "eyeq-1549360105178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511859356657:android:210fc652d50ebc73a64a50",
+        "android_client_info": {
+          "package_name": "com.goodbits.eyeq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511859356657-56n3kcsouetkrkhi8fdtucqvl9scjnp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goodbits.eyeq",
+            "certificate_hash": "15efc741f1fb173404c58dac21431cb91c52cc5e"
+          }
+        },
+        {
+          "client_id": "511859356657-gejpp9kjc7j33rdhqcukkhdeobblp688.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCakwOG7TBt8hflBeSFK3P4vyZmRLq4tM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511859356657-gejpp9kjc7j33rdhqcukkhdeobblp688.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "511859356657-e8s4ttmioobkpr7i421m19g1jeo2orkg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.parleinnovation.eyeqlive"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

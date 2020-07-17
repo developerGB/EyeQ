@@ -22,6 +22,7 @@ class FormActivity : AppCompatActivity() {
         skip.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+//            throw RuntimeException("Test Crash") // Force a crash
         }
 
         submit.setOnClickListener {

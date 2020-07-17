@@ -57,7 +57,7 @@ class ActivityGallery : AppCompatActivity() {
         val width: Int = resources.displayMetrics.widthPixels
         val px = resources.getDimension(R.dimen.gird_column_width)
         val numCol = (width / px).toInt()
-        gridview.setNumColumns(numCol)
+        gridview.numColumns = numCol
     }
 
     class ImageAdapter(
