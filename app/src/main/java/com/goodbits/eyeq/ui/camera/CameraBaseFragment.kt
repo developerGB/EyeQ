@@ -21,12 +21,11 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.VideoCapture
 import androidx.camera.view.CameraView
-import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.goodbits.eyeq.R
-import com.goodbits.eyeq.ui.ActivityGallery
+import com.goodbits.eyeq.activities.ActivityGallery
 import com.goodbits.eyeq.ui.utils.EyeQUtils
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.layout_photoquality.*

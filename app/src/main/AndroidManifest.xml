@@ -18,13 +18,13 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.FormActivity"
+            android:name=".activities.FormActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.ActivityGallery"
+            android:name=".activities.ActivityGallery"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="landscape" />
     </application>
 

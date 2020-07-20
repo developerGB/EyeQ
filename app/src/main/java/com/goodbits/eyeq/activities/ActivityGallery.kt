@@ -1,11 +1,10 @@
-package com.goodbits.eyeq.ui
+package com.goodbits.eyeq.activities
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -36,7 +35,10 @@ class ActivityGallery : AppCompatActivity() {
         }
 
         getFromSdcard()
-        imageAdapter = ImageAdapter(this, imgList)
+        imageAdapter = ImageAdapter(
+            this,
+            imgList
+        )
         gridview.adapter = imageAdapter
     }
 
@@ -74,7 +76,8 @@ class ActivityGallery : AppCompatActivity() {
                 val mInflater = (context as Activity).layoutInflater
 
                 myView = mInflater.inflate(R.layout.gallery_item, parent, false)
-                holder = ViewHolder()
+                holder =
+                    ViewHolder()
                 holder.imageview = myView!!.findViewById(R.id.thumbImage) as ImageView
                 holder.play = myView.findViewById(R.id.play) as ImageView
 

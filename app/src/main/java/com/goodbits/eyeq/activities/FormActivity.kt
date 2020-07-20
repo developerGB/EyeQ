@@ -1,14 +1,17 @@
-package com.goodbits.eyeq.ui
+package com.goodbits.eyeq.activities
 
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
+import com.goodbits.eyeq.AppPreference
 import com.goodbits.eyeq.R
 import kotlinx.android.synthetic.main.activity_form.*
 
 class FormActivity : AppCompatActivity() {
+
+    internal lateinit var session: AppPreference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
@@ -19,13 +22,19 @@ class FormActivity : AppCompatActivity() {
         model.append(" $myDeviceModel")
         os_version.append(" $os")
 
+        session = AppPreference(applicationContext)
+        session.isUserLoggedIn()
+
+
         skip.setOnClickListener {
+            session.isFormShown(true)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 //            throw RuntimeException("Test Crash") // Force a crash
         }
 
         submit.setOnClickListener {
+            session.isFormShown(true)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
