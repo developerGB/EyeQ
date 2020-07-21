@@ -36,8 +36,8 @@ class AppPreference(context: Context) {
 
     fun isFormShown(formShown: Boolean) {
 
-        editor.putBoolean(IS_USER_LOGIN, true)
-        editor.putBoolean(IS_FORM_SHOWN, true)
+        editor.putBoolean(IS_USER_LOGIN, formShown)
+        editor.putBoolean(IS_FORM_SHOWN, formShown)
         editor.commit()
 
     }

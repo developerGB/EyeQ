@@ -3,6 +3,7 @@ package com.goodbits.eyeq.activities
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.goodbits.eyeq.AppPreference
 import com.goodbits.eyeq.R
@@ -27,16 +28,23 @@ class FormActivity : AppCompatActivity() {
 
 
         skip.setOnClickListener {
-            session.isFormShown(true)
+            session.isFormShown(false)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 //            throw RuntimeException("Test Crash") // Force a crash
         }
 
         submit.setOnClickListener {
-            session.isFormShown(true)
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            if (!checkbox.isChecked) {
+                Toast.makeText(
+                    this@FormActivity, "Please read and agree to the Privacy policy and continue",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                session.isFormShown(true)
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
         }
 
     }
