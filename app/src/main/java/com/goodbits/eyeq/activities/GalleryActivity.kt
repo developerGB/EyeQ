@@ -1,8 +1,10 @@
 package com.goodbits.eyeq.activities
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.goodbits.eyeq.R
 import com.goodbits.eyeq.ui.utils.EyeQUtils
@@ -21,7 +24,10 @@ import java.util.*
 class GalleryActivity : AppCompatActivity() {
 
     private var dataList = ArrayList<String>()
-    private var imageAdapter: ImageAdapter? = null
+
+    companion object{
+        val FILE_DELETED = "com.goodbits.eyeq.gallery.file_deleted"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,20 +39,39 @@ class GalleryActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        getFromSdcard()
-        imageAdapter = ImageAdapter(
-            this,
-            dataList
-        )
-        gridview.adapter = imageAdapter
+        updateGallery()
 
         gridview.setOnItemClickListener { parent, view, position, id ->
 
             val intent = Intent (this@GalleryActivity, GalleryDetailsActivity::class.java )
             intent.putExtra("file_path", dataList[position])
             startActivity(intent)
-
         }
+
+        val filter = IntentFilter()
+        filter.addAction(FILE_DELETED)
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(receiver , filter)
+    }
+
+    private val receiver = object  : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (!isFinishing)
+                when (intent?.action) {
+                    FILE_DELETED -> updateGallery()
+                }
+        }
+    }
+
+    private fun updateGallery(){
+
+        getFromSdcard()
+        val imageAdapter = ImageAdapter(
+            this,
+            dataList
+        )
+        gridview.adapter = imageAdapter
+
     }
 
     private fun getFromSdcard() {
@@ -183,6 +208,11 @@ class GalleryActivity : AppCompatActivity() {
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    override fun onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        super.onDestroy()
     }
 
 }

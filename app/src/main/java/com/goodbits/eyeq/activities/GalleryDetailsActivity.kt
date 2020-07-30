@@ -1,12 +1,14 @@
 package com.goodbits.eyeq.activities
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.View
 import android.widget.MediaController
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.goodbits.eyeq.R
 import kotlinx.android.synthetic.main.activity_gallery_details.*
@@ -30,20 +32,33 @@ class GalleryDetailsActivity : AppCompatActivity(){
 
             val splits = filePath.split("/")
 
-            if (splits.isNotEmpty())
+            if (splits.isNotEmpty()) {
                 txt_header.text = splits[splits.size - 1]
 
-            if (filePath.endsWith(".mp4")){
-                showVideoFile(filePath)
-            }
-            else if (filePath.isNotEmpty()){
-                showImageFile(filePath)
+                btn_delete.setOnClickListener {
+                    deleteFile(File(filePath) , splits[splits.size - 1])
+                }
+
+                if (filePath.endsWith(".mp4")) {
+                    showVideoFile(filePath)
+                } else if (filePath.isNotEmpty()) {
+                    showImageFile(filePath)
+                } else showFileError()
             }
             else showFileError()
-
         }
-        else showFileError()
+        else{
 
+            btn_delete.setOnClickListener {
+               showFileError()
+            }
+
+            showFileError()
+        }
+
+        btn_share.setOnClickListener {
+            Toast.makeText(this, "Sandbox testing only", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun showImageFile(path : String){
@@ -115,5 +130,28 @@ class GalleryDetailsActivity : AppCompatActivity(){
         }
 
         super.onBackPressed()
+    }
+
+    private fun deleteFile(file:File, name:String){
+
+        AlertDialog.Builder(this)
+            .setTitle("Alert")
+            .setMessage("Are you sure!\nDo you want to delete $name ?")
+            .setPositiveButton("Yes"){ dialog, which ->
+
+                if (file.exists()) {
+                    file.delete()
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(GalleryActivity.FILE_DELETED))
+                    Toast.makeText(this, "File Deleted", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+                else
+                    showFileError()
+
+            }
+            .setNegativeButton("No"){ dialog, which ->
+
+            }
+            .show()
     }
 }

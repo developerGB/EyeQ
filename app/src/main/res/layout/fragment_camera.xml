@@ -80,7 +80,7 @@
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:text="@string/browse"
-                    android:textAlignment="textEnd"
+                    android:gravity="end"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -112,7 +112,7 @@
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:text="@string/takephoto"
-                    android:textAlignment="textEnd"
+                    android:gravity="end"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -260,7 +260,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:max="9"
+                    android:max="100"
                     android:progressBackgroundTint="#eee"
                     android:secondaryProgressTint="#585858"
                     android:thumbTint="@color/white"
@@ -271,6 +271,20 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/text_zoom_ratio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:text="1x"
+            android:textColor="@android:color/white"
+            android:padding="10dp"
+            android:textSize="24sp"
+            android:background="@drawable/rounded_corner"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </RelativeLayout>

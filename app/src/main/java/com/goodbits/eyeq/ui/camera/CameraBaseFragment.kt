@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.layout_videoquality.*
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 const val DEFAULT_ZOOM = 1f
 
@@ -52,7 +53,7 @@ class CameraBaseFragment : Fragment() {
         seek_zoom.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 //                if (fromUser)
-                    setZoom(progress.toFloat() + 1)
+                    setZoom(progress.toFloat()/10 + 1)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -173,7 +174,8 @@ class CameraBaseFragment : Fragment() {
                     val delta = detector.scaleFactor ?: 0f
                     zoom = currentZoomRatio * delta
                     cam.zoomRatio = zoom
-
+                    text_zoom_ratio.visibility = View.VISIBLE
+                    text_zoom_ratio.text = String.format("%.1f", zoom + 1) + "x"
                 }
                 catch (e:Exception){
                     e.printStackTrace()
@@ -184,8 +186,12 @@ class CameraBaseFragment : Fragment() {
 
             override fun onScaleEnd(detector: ScaleGestureDetector?) {
                 super.onScaleEnd(detector)
-
-                seek_zoom.progress = zoom.toInt()
+                seek_zoom.progress = (zoom * 10).roundToInt()
+                text_zoom_ratio.text = String.format("%.1f", zoom + 1) + "x"
+                Handler().postDelayed({
+                    if (text_zoom_ratio.visibility == View.VISIBLE)
+                        text_zoom_ratio.visibility = View.GONE
+                },500)
             }
         }
 

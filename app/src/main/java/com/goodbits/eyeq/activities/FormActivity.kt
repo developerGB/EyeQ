@@ -27,12 +27,12 @@ class FormActivity : AppCompatActivity() {
         session.isUserLoggedIn()
 
 
-        skip.setOnClickListener {
-            session.isFormShown(false)
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-//            throw RuntimeException("Test Crash") // Force a crash
-        }
+//        skip.setOnClickListener {
+//            session.isFormShown(false)
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
+////            throw RuntimeException("Test Crash") // Force a crash
+//        }
 
         submit.setOnClickListener {
             if (!checkbox.isChecked) {

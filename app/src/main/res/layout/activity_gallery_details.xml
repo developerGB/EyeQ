@@ -7,33 +7,50 @@
     android:background="@drawable/bg"
     tools:context=".activities.GalleryActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginEnd="10dp"
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/btn_back"
             android:layout_width="30dp"
             android:layout_height="20dp"
-            android:layout_centerVertical="true"
             android:src="@drawable/arrow_back"
             android:tint="@color/colorAccent" />
 
         <TextView
             android:id="@+id/txt_header"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
             android:text="@string/gallery"
+            android:gravity="center"
             android:textColor="@color/colorAccent"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/btn_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:background="?selectableItemBackground"/>
+
+        <ImageView
+            android:id="@+id/btn_share"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_share_24"
+            android:background="?selectableItemBackground"/>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/img_preview"
