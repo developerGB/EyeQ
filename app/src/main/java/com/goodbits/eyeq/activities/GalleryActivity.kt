@@ -18,11 +18,10 @@ import java.io.File
 import java.util.*
 
 
-class ActivityGallery : AppCompatActivity() {
+class GalleryActivity : AppCompatActivity() {
 
-    private var imgList = ArrayList<String>()
+    private var dataList = ArrayList<String>()
     private var imageAdapter: ImageAdapter? = null
-    private var listFile: Array<File>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,20 +36,28 @@ class ActivityGallery : AppCompatActivity() {
         getFromSdcard()
         imageAdapter = ImageAdapter(
             this,
-            imgList
+            dataList
         )
         gridview.adapter = imageAdapter
+
+        gridview.setOnItemClickListener { parent, view, position, id ->
+
+            val intent = Intent (this@GalleryActivity, GalleryDetailsActivity::class.java )
+            intent.putExtra("file_path", dataList[position])
+            startActivity(intent)
+
+        }
     }
 
     private fun getFromSdcard() {
-        imgList.clear()
+        dataList.clear()
 //        val file = File(Environment.getExternalStorageDirectory(), "Android/media/com.goodbits.eyeq/Image")
         val file = EyeQUtils.getOutputDirectory(this)
         if (file.isDirectory) {
-            listFile = file.listFiles()
-            for (i in listFile!!.indices) {
-                imgList.add(listFile!![i].absolutePath)
-                imgList.reverse()
+            var dataFileList = file.listFiles()
+            for (i in dataFileList!!.indices) {
+                dataList.add(dataFileList!![i].absolutePath)
+                dataList.reverse()
             }
         }
     }

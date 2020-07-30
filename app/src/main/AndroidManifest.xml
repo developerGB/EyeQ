@@ -21,8 +21,11 @@
             android:name=".activities.FormActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".activities.ActivityGallery"
+            android:name=".activities.GalleryActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.GalleryDetailsActivity"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="landscape">

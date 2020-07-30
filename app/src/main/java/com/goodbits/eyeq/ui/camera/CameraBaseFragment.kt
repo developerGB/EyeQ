@@ -11,10 +11,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.SystemClock
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.PixelCopy
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.camera.core.ImageCapture
@@ -25,7 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.goodbits.eyeq.R
-import com.goodbits.eyeq.activities.ActivityGallery
+import com.goodbits.eyeq.activities.GalleryActivity
 import com.goodbits.eyeq.ui.utils.EyeQUtils
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.layout_photoquality.*
@@ -54,7 +51,7 @@ class CameraBaseFragment : Fragment() {
 
         seek_zoom.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser)
+//                if (fromUser)
                     setZoom(progress.toFloat() + 1)
             }
 
@@ -72,7 +69,7 @@ class CameraBaseFragment : Fragment() {
             startVideoRecord()
         }
         btn_browse.setOnClickListener {
-            val intent = Intent(activity, ActivityGallery::class.java)
+            val intent = Intent(activity, GalleryActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
@@ -154,6 +151,9 @@ class CameraBaseFragment : Fragment() {
             }
         }
 
+        setUpVolumeButtonZoom()
+        setUpPinchToZoom()
+
     }
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,6 +162,62 @@ class CameraBaseFragment : Fragment() {
 //        setContentView(R.layout.fragment_camera)
 //
 //    }
+
+    private fun setUpPinchToZoom() {
+        val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            var zoom = 0f
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+
+                try {
+                    val currentZoomRatio: Float = cam.zoomRatio ?: 0F
+                    val delta = detector.scaleFactor ?: 0f
+                    zoom = currentZoomRatio * delta
+                    cam.zoomRatio = zoom
+
+                }
+                catch (e:Exception){
+                    e.printStackTrace()
+                }
+
+                return true
+            }
+
+            override fun onScaleEnd(detector: ScaleGestureDetector?) {
+                super.onScaleEnd(detector)
+
+                seek_zoom.progress = zoom.toInt()
+            }
+        }
+
+        val scaleGestureDetector = ScaleGestureDetector(context, listener)
+
+        cam.setOnTouchListener { _, event ->
+            scaleGestureDetector.onTouchEvent(event)
+            return@setOnTouchListener true
+        }
+    }
+
+    private fun setUpVolumeButtonZoom(){
+
+        cam.requestFocusFromTouch()
+        cam.requestFocus()
+        cam.setOnKeyListener(object: View.OnKeyListener{
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+                if (keyCode == KeyEvent.KEYCODE_VOLUME_UP && event?.action == KeyEvent.ACTION_DOWN) {
+                    if (seek_zoom.progress < seek_zoom.max) {
+                        seek_zoom.progress++
+                    }
+                    return true
+                } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN && event?.action == KeyEvent.ACTION_DOWN) {
+                    if (seek_zoom.progress > 0) {
+                        seek_zoom.progress--
+                    }
+                    return true
+                }
+                return false
+            }
+        })
+    }
 
     private fun setZoom(zm: Float) {
         cam.zoomRatio = zm
@@ -189,12 +245,6 @@ class CameraBaseFragment : Fragment() {
     private fun takePhoto() {
 
         // Create timestamped output file to hold the image
-        val photoFile = File(
-            EyeQUtils.getOutputDirectory(context!!),
-            SimpleDateFormat(
-                FILENAME_FORMAT, Locale.US
-            ).format(System.currentTimeMillis()) + ".jpg"
-        )
 
         if (!cam.isRecording) {
             if (cam.captureMode != CameraView.CaptureMode.IMAGE) {
@@ -237,6 +287,7 @@ class CameraBaseFragment : Fragment() {
                         val msg = "Photo capture succeeded: $savedUri"
                         Toast.makeText(context, "Photo saved", Toast.LENGTH_SHORT).show()
                         Log.d(TAG, msg)
+                        sendNewMediaBroadcast(savedUri)
                         img_photo.setImageDrawable(resources.getDrawable(R.drawable.camerawhite,activity?.theme))
                     }
                 })
@@ -343,6 +394,7 @@ class CameraBaseFragment : Fragment() {
 
                 val savedUri = Uri.fromFile(photoFile)
                 Log.d(TAG, "Photo capture succeeded: $savedUri")
+                sendNewMediaBroadcast(savedUri)
             }
         } catch (e: FileNotFoundException) {
             Log.w(TAG, "Error saving image file: " + e.message)
@@ -397,6 +449,7 @@ class CameraBaseFragment : Fragment() {
                         val msg = "Video capture succeeded: $savedUri"
                         Toast.makeText(context, "Video saved", Toast.LENGTH_SHORT).show()
                         Log.d(TAG, msg)
+                        sendNewMediaBroadcast(savedUri)
                     }
                 })
 
@@ -425,6 +478,15 @@ class CameraBaseFragment : Fragment() {
     private fun imageQuality(id: Int) {
 
 
+    }
+
+    private fun sendNewMediaBroadcast(uri:Uri){
+        context!!.sendBroadcast(
+            Intent(
+                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                uri
+            )
+        )
     }
 
 }

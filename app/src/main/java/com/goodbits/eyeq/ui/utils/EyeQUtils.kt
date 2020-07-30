@@ -16,26 +16,7 @@ class EyeQUtils {
 //                mediaDir else context!!.filesDir
 
             val file = File(
-                Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name))
-
-            if (!file.exists())
-                if (!file.mkdirs()) {
-                    Log.e("EyeQ", "Failed to create directory")
-                }
-            return file
-        }
-
-        fun getSnapshotOutputDirectory(context: Context): File {
-//            val mediaDir = context!!.externalMediaDirs.firstOrNull()?.let {
-//                File(it, folder).apply { mkdirs() }
-//            }
-//            return if (mediaDir != null && mediaDir.exists())
-//                mediaDir else context!!.filesDir
-
-            val file = File(
-                Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name) + "/snapshot")
+                Environment.getExternalStorageDirectory(), context.getString(R.string.app_name))
 
             if (!file.exists())
                 if (!file.mkdirs()) {

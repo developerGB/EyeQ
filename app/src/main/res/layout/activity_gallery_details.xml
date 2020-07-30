@@ -24,6 +24,7 @@
             android:tint="@color/colorAccent" />
 
         <TextView
+            android:id="@+id/txt_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -34,16 +35,29 @@
 
     </RelativeLayout>
 
-    <GridView
-        android:id="@+id/gridview"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/img_preview"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/header"
         android:layout_margin="16dp"
+        android:src="@drawable/eyeq"
+        android:scaleType="fitCenter"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/lay_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/header"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth">
+        android:visibility="gone"
+        android:layout_margin="16dp">
 
-    </GridView>
-
+        <VideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 
 </RelativeLayout>
