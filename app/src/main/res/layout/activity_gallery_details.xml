@@ -7,12 +7,52 @@
     android:background="@drawable/bg"
     tools:context=".activities.GalleryActivity">
 
+<!--    <ImageView-->
+<!--        android:id="@+id/img_preview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@+id/header"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:src="@drawable/eyeq"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        android:visibility="gone"/>-->
+
+    <com.jsibbold.zoomage.ZoomageView
+        android:id="@+id/img_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/eyeq"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        app:zoomage_restrictBounds="true"
+        app:zoomage_animateOnReset="true"
+        app:zoomage_autoResetMode="UNDER"
+        app:zoomage_autoCenter="true"
+        app:zoomage_zoomable="true"
+        app:zoomage_translatable="true"
+        app:zoomage_minScale="1"
+        app:zoomage_maxScale="10"/>
+
+    <RelativeLayout
+        android:id="@+id/lay_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <VideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="10dp"
         android:gravity="center_vertical">
 
@@ -51,30 +91,5 @@
             android:background="?selectableItemBackground"/>
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/img_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        android:layout_margin="16dp"
-        android:src="@drawable/eyeq"
-        android:scaleType="fitCenter"
-        android:visibility="gone"/>
-
-    <RelativeLayout
-        android:id="@+id/lay_video_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/header"
-        android:visibility="gone"
-        android:layout_margin="16dp">
-
-        <VideoView
-            android:id="@+id/video_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
 
 </RelativeLayout>

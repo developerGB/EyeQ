@@ -75,4 +75,7 @@ dependencies {
         // exclude Retrofit’s OkHttp dependency module and define your own module import
         exclude module: 'okhttp'
     }
+
+    //image pinch to zoom enable library
+    implementation 'com.jsibbold:zoomage:1.3.1'
 }

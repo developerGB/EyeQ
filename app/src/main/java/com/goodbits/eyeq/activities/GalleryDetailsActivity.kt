@@ -42,6 +42,7 @@ class GalleryDetailsActivity : AppCompatActivity(){
                 if (filePath.endsWith(".mp4")) {
                     showVideoFile(filePath)
                 } else if (filePath.isNotEmpty()) {
+//                    setUpImageViewPinchToZoom()
                     showImageFile(filePath)
                 } else showFileError()
             }
@@ -102,14 +103,17 @@ class GalleryDetailsActivity : AppCompatActivity(){
                 it.setScreenOnWhilePlaying(true)
 
                 //resizing video player
-                val videoARWidth = 16f
-                val videoARHeight = 10f
+                val videoARWidth = 3f
+                val videoARHeight = 2f
 
                 val videoARRatio = videoARWidth / videoARHeight
 
+                val videoARWidthRatio = video_view.width * videoARRatio
+                val videoARHeightRatio = video_view.height * videoARRatio
+
                 val params = video_view.layoutParams
-                params.width = (it.videoWidth * videoARRatio).toInt()
-                params.height = (it.videoHeight * videoARRatio).toInt()
+                params.width = (it.videoWidth * videoARWidthRatio).toInt()
+                params.height = (it.videoHeight * videoARHeightRatio).toInt()
                 video_view.layoutParams = params
 
                 it.start()
@@ -154,4 +158,27 @@ class GalleryDetailsActivity : AppCompatActivity(){
             }
             .show()
     }
+
+    //pinch to zoom for normal image view.
+//    private fun setUpImageViewPinchToZoom(){
+//
+//        val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener(){
+//            var mScaleFactor = 1.0f
+//            override fun onScale(detector: ScaleGestureDetector?): Boolean {
+//                mScaleFactor *= detector?.scaleFactor ?: 1.0F
+//                mScaleFactor = 0.1f.coerceAtLeast(mScaleFactor.coerceAtMost(10.0f));
+//                img_preview.scaleX = mScaleFactor
+//                img_preview.scaleY = mScaleFactor
+//                return true
+//            }
+//        }
+//
+//        val scaleGestureDetector = ScaleGestureDetector(this, listener)
+//
+//        img_preview.setOnTouchListener { _, event ->
+//            scaleGestureDetector.onTouchEvent(event)
+//            return@setOnTouchListener true
+//        }
+//
+//    }
 }

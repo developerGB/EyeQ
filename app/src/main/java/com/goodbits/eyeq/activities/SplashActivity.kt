@@ -72,19 +72,19 @@ class SplashActivity : AppCompatActivity() {
 
         var session: AppPreference = AppPreference(applicationContext)
 
-        if (session.isUserLoggedIn()) {
+//        if (session.isUserLoggedIn()) {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
-        } else {
-            val intent = Intent(this, FormActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
+//        } else {
+//            val intent = Intent(this, FormActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            startActivity(intent)
+//        }
 
     }
 
