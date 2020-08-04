@@ -37,24 +37,28 @@
         android:id="@+id/settings_view"
         layout="@layout/layout_settings"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"/>
 
     <include
         android:id="@+id/videoquality_view"
         layout="@layout/layout_videoquality"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"/>
 
     <include
         android:id="@+id/picquality_view"
         layout="@layout/layout_photoquality"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"/>
 
     <RelativeLayout
         android:id="@+id/menu_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp">
 
         <LinearLayout
             android:id="@+id/left_menu"
