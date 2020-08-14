@@ -2,12 +2,20 @@ package com.goodbits.eyeq.activities
 
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
+import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.MediaController
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.goodbits.eyeq.R
@@ -15,20 +23,27 @@ import kotlinx.android.synthetic.main.activity_gallery_details.*
 import java.io.File
 
 
-class GalleryDetailsActivity : AppCompatActivity(){
+class GalleryDetailsActivity : AppCompatActivity() {
+
+    var filePath: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        this.window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_gallery_details)
 
         btn_back.setOnClickListener {
             onBackPressed()
         }
 
-        if (intent.hasExtra("file_path")){
+        if (intent.hasExtra("file_path")) {
 
-            val filePath = intent.getStringExtra("file_path")?:""
+            filePath = intent.getStringExtra("file_path") ?: ""
+            Log.d("filepath", filePath)
 
             val splits = filePath.split("/")
 
@@ -36,7 +51,7 @@ class GalleryDetailsActivity : AppCompatActivity(){
                 txt_header.text = splits[splits.size - 1]
 
                 btn_delete.setOnClickListener {
-                    deleteFile(File(filePath) , splits[splits.size - 1])
+                    deleteFile(File(filePath), splits[splits.size - 1])
                 }
 
                 if (filePath.endsWith(".mp4")) {
@@ -45,24 +60,40 @@ class GalleryDetailsActivity : AppCompatActivity(){
 //                    setUpImageViewPinchToZoom()
                     showImageFile(filePath)
                 } else showFileError()
-            }
-            else showFileError()
-        }
-        else{
+            } else showFileError()
+        } else {
 
             btn_delete.setOnClickListener {
-               showFileError()
+                showFileError()
             }
 
             showFileError()
         }
 
         btn_share.setOnClickListener {
-            Toast.makeText(this, "Sandbox testing only", Toast.LENGTH_LONG).show()
+
+            val mediaUri: Uri = FileProvider.getUriForFile(
+                this,
+                this.applicationContext.packageName + ".provider",
+                File(filePath)
+            )
+
+            Log.d("mediaUri", mediaUri.toString())
+
+            val share = ShareCompat.IntentBuilder.from(this)
+                .setStream(mediaUri) // uri from FileProvider
+                .setType("text/html")
+                .intent
+                .setAction(Intent.ACTION_SEND) //Change if needed
+                .setDataAndType(mediaUri, "image/*")
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+            startActivity(Intent.createChooser(share, "Share"))
+
         }
     }
 
-    private fun showImageFile(path : String){
+    private fun showImageFile(path: String) {
 
         val file = File(path)
 
@@ -76,11 +107,10 @@ class GalleryDetailsActivity : AppCompatActivity(){
 
             img_preview.visibility = View.VISIBLE
             lay_video_view.visibility = View.GONE
-        }
-        else showFileError()
+        } else showFileError()
     }
 
-    private fun showVideoFile(path : String){
+    private fun showVideoFile(path: String) {
 
         val file = File(path)
 
@@ -119,41 +149,40 @@ class GalleryDetailsActivity : AppCompatActivity(){
                 it.start()
             }
 
-        }
-        else showFileError()
+        } else showFileError()
     }
 
-    private fun showFileError(){
+    private fun showFileError() {
         Toast.makeText(this, "File not found", Toast.LENGTH_LONG).show()
     }
 
     override fun onBackPressed() {
 
-        if (lay_video_view.visibility == View.VISIBLE && video_view.isPlaying){
+        if (lay_video_view.visibility == View.VISIBLE && video_view.isPlaying) {
             video_view.stopPlayback()
         }
 
         super.onBackPressed()
     }
 
-    private fun deleteFile(file:File, name:String){
+    private fun deleteFile(file: File, name: String) {
 
         AlertDialog.Builder(this)
             .setTitle("Alert")
             .setMessage("Are you sure!\nDo you want to delete $name ?")
-            .setPositiveButton("Yes"){ dialog, which ->
+            .setPositiveButton("Yes") { dialog, which ->
 
                 if (file.exists()) {
                     file.delete()
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(GalleryActivity.FILE_DELETED))
+                    LocalBroadcastManager.getInstance(this)
+                        .sendBroadcast(Intent(GalleryActivity.FILE_DELETED))
                     Toast.makeText(this, "File Deleted", Toast.LENGTH_LONG).show()
                     finish()
-                }
-                else
+                } else
                     showFileError()
 
             }
-            .setNegativeButton("No"){ dialog, which ->
+            .setNegativeButton("No") { dialog, which ->
 
             }
             .show()
