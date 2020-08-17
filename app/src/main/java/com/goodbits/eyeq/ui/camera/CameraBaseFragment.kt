@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.goodbits.eyeq.R
 import com.goodbits.eyeq.activities.GalleryActivity
+import com.goodbits.eyeq.onBackPressed
 import com.goodbits.eyeq.ui.utils.EyeQUtils
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.layout_photoquality.*
@@ -36,6 +37,8 @@ import kotlin.math.roundToInt
 const val DEFAULT_ZOOM = 1f
 
 class CameraBaseFragment : Fragment() {
+
+    var isExit: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +56,7 @@ class CameraBaseFragment : Fragment() {
         seek_zoom.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 //                if (fromUser)
-                    setZoom(progress.toFloat()/10 + 1)
+                setZoom(progress.toFloat() / 10 + 1)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -79,10 +82,12 @@ class CameraBaseFragment : Fragment() {
 
             menu_container.visibility = View.GONE
             settings_container.visibility = View.VISIBLE
+            isExit = false
 
             settings_back.setOnClickListener {
                 menu_container.visibility = View.VISIBLE
                 settings_container.visibility = View.GONE
+                isExit = true
             }
 
             videoquality.setOnClickListener {
@@ -176,8 +181,7 @@ class CameraBaseFragment : Fragment() {
                     cam.zoomRatio = zoom
                     text_zoom_ratio.visibility = View.VISIBLE
                     text_zoom_ratio.text = String.format("%.1f", zoom + 1) + "x"
-                }
-                catch (e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
@@ -191,7 +195,7 @@ class CameraBaseFragment : Fragment() {
                 Handler().postDelayed({
                     if (text_zoom_ratio.visibility == View.VISIBLE)
                         text_zoom_ratio.visibility = View.GONE
-                },500)
+                }, 500)
             }
         }
 
@@ -203,11 +207,11 @@ class CameraBaseFragment : Fragment() {
         }
     }
 
-    private fun setUpVolumeButtonZoom(){
+    private fun setUpVolumeButtonZoom() {
 
         cam.requestFocusFromTouch()
         cam.requestFocus()
-        cam.setOnKeyListener(object: View.OnKeyListener{
+        cam.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 if (keyCode == KeyEvent.KEYCODE_VOLUME_UP && event?.action == KeyEvent.ACTION_DOWN) {
                     if (seek_zoom.progress < seek_zoom.max) {
@@ -267,7 +271,12 @@ class CameraBaseFragment : Fragment() {
                 cam.bindToLifecycle(this)
             }
 
-            img_photo.setImageDrawable(resources.getDrawable(R.drawable.cameragreen,activity?.theme))
+            img_photo.setImageDrawable(
+                resources.getDrawable(
+                    R.drawable.cameragreen,
+                    activity?.theme
+                )
+            )
 
             // Create timestamped output file to hold the image
             val photoFile = File(
@@ -285,7 +294,12 @@ class CameraBaseFragment : Fragment() {
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onError(exc: ImageCaptureException) {
                         Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-                        img_photo.setImageDrawable(resources.getDrawable(R.drawable.camerawhite,activity?.theme))
+                        img_photo.setImageDrawable(
+                            resources.getDrawable(
+                                R.drawable.camerawhite,
+                                activity?.theme
+                            )
+                        )
                     }
 
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -294,11 +308,15 @@ class CameraBaseFragment : Fragment() {
                         Toast.makeText(context, "Photo saved", Toast.LENGTH_SHORT).show()
                         Log.d(TAG, msg)
                         sendNewMediaBroadcast(savedUri)
-                        img_photo.setImageDrawable(resources.getDrawable(R.drawable.camerawhite,activity?.theme))
+                        img_photo.setImageDrawable(
+                            resources.getDrawable(
+                                R.drawable.camerawhite,
+                                activity?.theme
+                            )
+                        )
                     }
                 })
-        }
-        else{
+        } else {
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 img_photo.setImageDrawable(
@@ -332,30 +350,37 @@ class CameraBaseFragment : Fragment() {
                     handlerThread.start()
                     // Make the request to copy.
                     // Make the request to copy.
-                    PixelCopy.request(activity?.window!!, Rect(locationOfViewInWindow[0],
-                        locationOfViewInWindow[1],
-                        locationOfViewInWindow[0] + cam.width,
-                        locationOfViewInWindow[1] + cam.height), bitmap, { copyResult ->
-                        if (copyResult == PixelCopy.SUCCESS) {
-                            Log.e(TAG, bitmap.toString())
-                            storeImage(bitmap)
-                        } else {
+                    PixelCopy.request(
+                        activity?.window!!, Rect(
+                            locationOfViewInWindow[0],
+                            locationOfViewInWindow[1],
+                            locationOfViewInWindow[0] + cam.width,
+                            locationOfViewInWindow[1] + cam.height
+                        ), bitmap, { copyResult ->
+                            if (copyResult == PixelCopy.SUCCESS) {
+                                Log.e(TAG, bitmap.toString())
+                                storeImage(bitmap)
+                            } else {
 
-                            activity?.runOnUiThread{
-                                Toast.makeText(
-                                    context!!,
-                                    "Photo capture failed", Toast.LENGTH_LONG
-                                ).show()
+                                activity?.runOnUiThread {
+                                    Toast.makeText(
+                                        context!!,
+                                        "Photo capture failed", Toast.LENGTH_LONG
+                                    ).show()
 
-                                Log.e(TAG, "Photo capture failed: $copyResult")
+                                    Log.e(TAG, "Photo capture failed: $copyResult")
+                                }
                             }
-                        }
-                        handlerThread.quitSafely()
-                    }, Handler(handlerThread.getLooper()))
+                            handlerThread.quitSafely()
+                        }, Handler(handlerThread.getLooper())
+                    )
                 }, 10)
-            }
-            else{
-                Toast.makeText(context,"Sorry snapshot mode is not supported on your device", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    context,
+                    "Sorry snapshot mode is not supported on your device",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -388,7 +413,12 @@ class CameraBaseFragment : Fragment() {
 
             activity?.runOnUiThread {
 
-                img_photo.setImageDrawable(resources.getDrawable(R.drawable.camerawhite,activity?.theme))
+                img_photo.setImageDrawable(
+                    resources.getDrawable(
+                        R.drawable.camerawhite,
+                        activity?.theme
+                    )
+                )
 
                 //hiding views
                 left_menu.visibility = View.VISIBLE
@@ -486,7 +516,7 @@ class CameraBaseFragment : Fragment() {
 
     }
 
-    private fun sendNewMediaBroadcast(uri:Uri){
+    private fun sendNewMediaBroadcast(uri: Uri) {
         context!!.sendBroadcast(
             Intent(
                 Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,

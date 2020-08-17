@@ -26,6 +26,7 @@ import java.io.File
 class GalleryDetailsActivity : AppCompatActivity() {
 
     var filePath: String = ""
+    var fileType: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +56,11 @@ class GalleryDetailsActivity : AppCompatActivity() {
                 }
 
                 if (filePath.endsWith(".mp4")) {
+                    fileType = "video/*"
                     showVideoFile(filePath)
                 } else if (filePath.isNotEmpty()) {
 //                    setUpImageViewPinchToZoom()
+                    fileType = "image/*"
                     showImageFile(filePath)
                 } else showFileError()
             } else showFileError()
@@ -85,7 +88,7 @@ class GalleryDetailsActivity : AppCompatActivity() {
                 .setType("text/html")
                 .intent
                 .setAction(Intent.ACTION_SEND) //Change if needed
-                .setDataAndType(mediaUri, "image/*")
+                .setDataAndType(mediaUri, fileType)
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
             startActivity(Intent.createChooser(share, "Share"))
