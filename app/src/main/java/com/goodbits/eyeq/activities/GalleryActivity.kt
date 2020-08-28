@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -17,13 +18,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.goodbits.eyeq.R
+import com.goodbits.eyeq.bleservice.UartCallback
 import com.goodbits.eyeq.ui.utils.EyeQUtils
 import kotlinx.android.synthetic.main.activity_gallery.*
 import java.io.File
 import java.util.*
 
 
-class GalleryActivity : AppCompatActivity() {
+class GalleryActivity : AppCompatActivity(),UartCallback {
 
     private var dataList = ArrayList<String>()
 
@@ -220,6 +222,10 @@ class GalleryActivity : AppCompatActivity() {
     override fun onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
         super.onDestroy()
+    }
+
+    override fun handleException(action: String?) {
+        Log.d("[EyeQ] Gallery screen", "Service Message = $action")
     }
 
 }

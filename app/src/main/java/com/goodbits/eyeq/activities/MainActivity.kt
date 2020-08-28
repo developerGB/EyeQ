@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -11,10 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.goodbits.eyeq.R
+import com.goodbits.eyeq.bleservice.UartCallback
 import com.goodbits.eyeq.onBackPressed
 import com.goodbits.eyeq.ui.camera.CameraBaseFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),UartCallback  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +98,10 @@ class MainActivity : AppCompatActivity() {
         ).show()
 
         Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
+
+    override fun handleException(action: String?) {
+        Log.d("[EyeQ] Home screen", "Service Message = $action")
     }
 
 

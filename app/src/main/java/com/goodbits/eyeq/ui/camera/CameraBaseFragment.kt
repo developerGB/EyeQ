@@ -23,7 +23,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.goodbits.eyeq.R
 import com.goodbits.eyeq.activities.GalleryActivity
-import com.goodbits.eyeq.onBackPressed
+import com.goodbits.eyeq.bleservice.UART
+import com.goodbits.eyeq.bleservice.UartCallback
 import com.goodbits.eyeq.ui.utils.EyeQUtils
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.layout_photoquality.*
@@ -36,7 +37,7 @@ import kotlin.math.roundToInt
 
 const val DEFAULT_ZOOM = 1f
 
-class CameraBaseFragment : Fragment() {
+class CameraBaseFragment : Fragment(), UartCallback {
 
     var isExit: Boolean = true
 
@@ -52,6 +53,8 @@ class CameraBaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         startCamera()
+        val uart = UART.getInstance(activity, view, this) // Creation of UART Object and Service
+
 
         seek_zoom.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -523,6 +526,10 @@ class CameraBaseFragment : Fragment() {
                 uri
             )
         )
+    }
+
+    override fun handleException(action: String?) {
+        Log.d("[EyeQ] Home screen", "Service Message = $action")
     }
 
 }

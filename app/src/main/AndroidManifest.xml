@@ -17,6 +17,13 @@
         android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
+
+        <service
+            android:name=".bleservice.UartService"
+            android:enabled="true">
+        </service>
+        <uses-library android:required="false" android:name="com.google.android.things"/>
+
         <activity
             android:name=".activities.FormActivity"
             android:screenOrientation="landscape" />

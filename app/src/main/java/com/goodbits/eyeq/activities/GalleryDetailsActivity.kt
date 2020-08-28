@@ -19,11 +19,12 @@ import androidx.core.content.FileProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.goodbits.eyeq.R
+import com.goodbits.eyeq.bleservice.UartCallback
 import kotlinx.android.synthetic.main.activity_gallery_details.*
 import java.io.File
 
 
-class GalleryDetailsActivity : AppCompatActivity() {
+class GalleryDetailsActivity : AppCompatActivity(),UartCallback {
 
     var filePath: String = ""
     var fileType: String = ""
@@ -95,6 +96,7 @@ class GalleryDetailsActivity : AppCompatActivity() {
 
         }
     }
+
 
     private fun showImageFile(path: String) {
 
@@ -189,6 +191,10 @@ class GalleryDetailsActivity : AppCompatActivity() {
 
             }
             .show()
+    }
+
+    override fun handleException(action: String?) {
+        Log.d("[EyeQ] Home screen", "Service Message = $action")
     }
 
     //pinch to zoom for normal image view.
